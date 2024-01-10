@@ -90,6 +90,7 @@ video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+	text-decoration: none;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -260,6 +261,77 @@ li:hover {
 .gallery img {
 	width: 100%;
 
+}
+
+.login-page {
+	background: #FFFEF8;
+	margin: auto;
+}
+
+#login-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#login-form ~ footer {
+	background: #FFF;
+	height: 60px;
+	align-items: center;
+	display: flex;
+	justify-content: flex-end;
+}
+
+#login-form h2 {
+	margin-top: 150px;
+	margin-bottom: 37px;
+}
+
+#login-form form {
+	width: 379px;
+	display: flex;
+	flex-direction: column;
+}
+
+#login-form label {
+	color: #3D3D3D;
+}
+
+#login-form input {
+	height: 45.8px;
+}
+
+#login-form input[type="submit"] {
+	height: 36px;
+	width: 179px;
+	margin-top: 37px;
+	margin-bottom: 28px;
+}
+
+.active-page {
+	font-weight: 600;
+	color: #000;
+}
+
+.email-input {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 30px;
+	gap: 7px;
+}
+
+.passwd-input {
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+}
+
+.forgot-passwd {
+	color: #3D3D3D;
+	font-family: Work Sans;
+	font-size: 14px;
+	text-decoration-line: underline;
+	margin-bottom: 355px;
 }
 
 #contact {
