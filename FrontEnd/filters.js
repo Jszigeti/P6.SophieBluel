@@ -1,3 +1,9 @@
+import { displayProjects } from "./gallery.js"
+
+// Récupération des travaux sur l'API
+const reponseWorks = await fetch('http://localhost:5678/api/works')
+const projects = await reponseWorks.json()
+
 // Fonction ajout des boutons filtres
 export function addFiltersButtons(categories) {
     // Initialisation de l'index
@@ -14,10 +20,58 @@ export function addFiltersButtons(categories) {
         sectionFilters.appendChild(filtersButtons)
         filtersButtons.innerText = categories[i].name
     }
+}
+
+export function filters() {
     // Récupération des boutons filtres
     const filtersButtons = document.querySelectorAll(".filters button")
-    buttonAll = filtersButtons[0]
+    const buttonAll = filtersButtons[0]
     const buttonObjects = filtersButtons[1]
     const buttonApartments = filtersButtons[2]
     const buttonHotelsRestaurants = filtersButtons[3]
+    // Bouton "Tous"
+    buttonAll.addEventListener("click", function () {
+        buttonAll.classList.add("selected-filter")
+        buttonObjects.classList.remove("selected-filter")
+        buttonApartments.classList.remove("selected-filter")
+        buttonHotelsRestaurants.classList.remove("selected-filter")
+        document.querySelector(".gallery").innerHTML = ""
+        displayProjects(projects)
+    })
+    // Bouton "Objets"
+    buttonObjects.addEventListener("click", function () {
+        const objects = projects.filter(function (project) {
+            return project.categoryId === 1
+        })
+        buttonObjects.classList.add("selected-filter")
+        buttonAll.classList.remove("selected-filter")
+        buttonApartments.classList.remove("selected-filter")
+        buttonHotelsRestaurants.classList.remove("selected-filter")
+        document.querySelector(".gallery").innerHTML = ""
+        displayProjects(objects)
+    })
+    // Bouton "Appartements"
+    buttonApartments.addEventListener("click", function () {
+        const apartments = projects.filter(function (project) {
+            return project.categoryId === 2
+        })
+        buttonApartments.classList.add("selected-filter")
+        buttonAll.classList.remove("selected-filter")
+        buttonObjects.classList.remove("selected-filter")
+        buttonHotelsRestaurants.classList.remove("selected-filter")
+        document.querySelector(".gallery").innerHTML = ""
+        displayProjects(apartments)
+    })
+    // Bouton "Hôtels & restaurants"
+    buttonHotelsRestaurants.addEventListener("click", function () {
+        const hotelsRestaurants = projects.filter(function (project) {
+            return project.categoryId === 3
+        })
+        buttonHotelsRestaurants.classList.add("selected-filter")
+        buttonAll.classList.remove("selected-filter")
+        buttonObjects.classList.remove("selected-filter")
+        buttonApartments.classList.remove("selected-filter")
+        document.querySelector(".gallery").innerHTML = ""
+        displayProjects(hotelsRestaurants)
+    })
 }
