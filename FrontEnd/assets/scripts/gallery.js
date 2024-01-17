@@ -1,22 +1,22 @@
-// Fonction affichage des projets
+// Projects display function
 export function displayProjects(projects) {
-    // Initialisation de l'index
-    let i = 0
+    // Initializing the index
+    let i = 0;
     for (i in projects) {
-        // Récupération de l'élément du DOM qui accueillera les projets
-        const sectionGallery = document.querySelector(".gallery")
-        // Création d'une balise dédiée à un projet
-        const project = document.createElement("figure")
-        // Création des balises
-        const projectImage = document.createElement("img")
-        const projectTitle = document.createElement("figcaption")
-        // Rattachement des balises
-        sectionGallery.appendChild(project)
-        project.appendChild(projectImage)
-        project.appendChild(projectTitle)
-        // Remplissage des balises
-        projectImage.src = projects[i].imageUrl
-        projectImage.alt = projects[i].title
-        projectTitle.innerText = projects[i].title
-    }
-}
+        // Retrieving the DOM element that will host the projects
+        const sectionGallery = document.querySelector(`.gallery`);
+        // Creating a HTML element dedicated to one project
+        const project = document.createElement(`figure`);
+        // Creating HTML elements
+        const projectImage = document.createElement(`img`);
+        const projectTitle = document.createElement(`figcaption`);
+        // Attaching HTML elements
+        sectionGallery.appendChild(project);
+        project.appendChild(projectImage);
+        project.appendChild(projectTitle);
+        // Filling HTML elements
+        projectImage.src = projects[i].imageUrl;
+        projectImage.alt = projects[i].title;
+        projectTitle.innerText = projects[i].title;
+    };
+};

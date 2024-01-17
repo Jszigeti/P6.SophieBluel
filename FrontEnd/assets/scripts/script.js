@@ -1,15 +1,26 @@
-// Import de la fonction d'affichage des projets depuis son fichier js
-import { displayProjects } from "./gallery.js"
-import { addFiltersButtons, filters } from "./filters.js"
+// Import from other JS files
+import { displayProjects } from `./gallery.js`;
+import { addFiltersButtons, filters } from `./filters.js`;
+import { login } from `./login.js`;
 
-// Récupération des travaux sur l'API
-const reponseWorks = await fetch('http://localhost:5678/api/works')
-const projects = await reponseWorks.json()
+export const URI = `http://localhost:5678/api/`;
 
-// Récupération des catégories de travaux sur l'API
-const reponseCategories = await fetch('http://localhost:5678/api/categories')
-const categories = await reponseCategories.json()
+// Retrieving works from the API
+const reponseWorks = await fetch(`${URI}works`);
+export const projects = await reponseWorks.json();
 
-addFiltersButtons(categories)
-displayProjects(projects)
-filters()
+// Retrieving works categories from the API
+const reponseCategories = await fetch(`${URI}categories`);
+const categories = await reponseCategories.json();
+
+// Calling functions relating only to the homepage
+if (document.querySelector(`body`).classList.value === `index`) {
+   addFiltersButtons(categories);
+    displayProjects(projects);
+    filters(); 
+};
+
+// Calling functions relating only to the login page
+if (document.querySelector(`body`).classList.value === `login-page`) {
+    login();
+};
