@@ -1,5 +1,5 @@
-import { displayProjects } from `./gallery.js`;
-import { projects } from `./script.js`;
+import { displayProjects } from './gallery.js';
+import { projects } from './script.js';
 
 // Filter buttons adding function
 export function addFiltersButtons(categories) {

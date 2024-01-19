@@ -15,21 +15,44 @@
 </head>
 
 <body class="index">
-	<div class="edition-block">
-		<img src="./assets/icons/Vector.svg" alt="edition icon">
-		<p>Mode édition</p>
-	</div>
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
-			<ul>
-				<li><a href="#">projets</a></li>
-				<li><a href="#">contact</a></li>
-				<li><a href="./login.html">login</a></li>
-				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-			</ul>
+			<a href="#">projets</a>
+			<a href="#">contact</a>
+			<a href="./login.html">login</a>
+			<a href="#" class="logout-button active-page" aria-hidden="true">logout</a>
+			<img src="./assets/icons/instagram.png" alt="Instagram">
 		</nav>
 	</header>
+	<aside class="edition-banner" aria-hidden="true">
+		<img src="./assets/icons/Vector.svg" alt="edition icon">
+		<p>Mode édition</p>
+	</aside>
+	<aside class="edition-modal" aria-hidden="true" role="dialog" aria-labelledby="edition-modal--box__title">
+		<div class="edition-modal--box" id="delete-projects-page">
+			<img src="./assets/icons/xmark.svg" alt="close icon" id="closing-icon">
+			<h3 class="edition-modal--box__title">Galerie photo</h3>
+			<div class="edition-modal--box__gallery"></div>
+			<div class="edition--modal--box__line"></div>
+			<input type="button" value="Ajouter une photo">
+		</div>
+		<div class="edition-modal--box" id="add-projects-page" style="display: none;">
+			<img src="./assets/icons/arrow-left.svg" alt="previously icon" id="previously-icon">
+			<img src="./assets/icons/xmark.svg" alt="close icon" id="closing-icon2">
+			<h3 class="edition-modal--box__title">Ajout photo</h3>
+			<form id="myForm">
+				<label for="image">Image:</label>
+				<input type="file" id="image" accept="image/*" required><br>
+				<label for="titre">Titre:</label>
+				<input type="text" id="titre" required><br>
+				<label for="categorie">Catégorie:</label>
+				<input type="text" id="categorie" required><br>
+				<div class="edition--modal--box__line"></div>
+				<input type="button" value="Valider">
+			</form>
+		</div>
+	</aside>
 	<main>
 		<div id="introduction">
 			<figure>
@@ -47,7 +70,13 @@
 			</article>
 		</div>
 		<section id="portfolio">
-			<h2>Mes Projets</h2>
+			<h2>
+				Mes Projets
+				<aside class="edition-button" aria-hidden="true">
+					<img src="./assets/icons/Group.svg" alt="edition icon">
+					<p>modifier</p>
+				</aside>
+			</h2>
 			<div class="filters">
 			</div>
 			<div class="gallery">

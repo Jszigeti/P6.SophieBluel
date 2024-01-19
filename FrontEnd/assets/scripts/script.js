@@ -1,8 +1,10 @@
-// Import from other JS files
-import { displayProjects } from `./gallery.js`;
-import { addFiltersButtons, filters } from `./filters.js`;
-import { login } from `./login.js`;
+// Imports from other JS files
+import { displayProjects } from './gallery.js';
+import { addFiltersButtons, filters } from './filters.js';
+import { login, logout } from './login.js';
+import { displayEditMode, displayModal, displayProjectsInModal, deleteProjects, modalPageChange } from './edit.js';
 
+// Storing API's URI in a const
 export const URI = `http://localhost:5678/api/`;
 
 // Retrieving works from the API
@@ -15,9 +17,15 @@ const categories = await reponseCategories.json();
 
 // Calling functions relating only to the homepage
 if (document.querySelector(`body`).classList.value === `index`) {
-   addFiltersButtons(categories);
+    addFiltersButtons(categories);
     displayProjects(projects);
-    filters(); 
+    filters();
+    logout();
+    displayEditMode();
+    displayModal();
+    displayProjectsInModal(projects);
+    deleteProjects(projects);
+    modalPageChange();
 };
 
 // Calling functions relating only to the login page
