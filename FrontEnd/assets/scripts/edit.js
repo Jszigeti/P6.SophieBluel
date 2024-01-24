@@ -1,122 +1,132 @@
 import { URI } from "./script.js";
-
-// Edit mode display function
-export function displayEditMode() {
-    if (window.sessionStorage.token) {
-        const editionBanner = document.querySelector(`.edition-banner`).classList.add(`connected`);
-        const header = document.querySelector(`.index header`).classList.add(`connected-header`);
-        const loginButton = document.querySelector(`a[href="./login.html"]`).style.display = "none";
-        const logoutButton = document.querySelector(`.logout-button`).classList.add(`connected`);
-        const editionButton = document.querySelector(`.edition-button`).classList.add(`connected`);
-        const hiddenElements = Array.from(document.querySelectorAll(`.connected`));
-        hiddenElements.forEach(function (el) {
-            el.removeAttribute("aria-hidden");
-        });
-    }
-}
-
-// Modal display function
-export function displayModal() {
-    if (window.sessionStorage.token) {
-        const modal = document.querySelector(`.edition-modal`);
-        const openModalButton = document.querySelector(`.edition-button`);
-        // Opening the modal
-        openModalButton.addEventListener(`click`, function () {
-            modal.classList.add(`connected`);
-            modal.focus();
-        });
-        // Closing the modal by clicking outside its window
-        window.addEventListener(`click`, function (event) {
-            if (event.target == modal && modal.classList.contains(`connected`)) {
-                modal.classList.remove(`connected`);
-            }
-        });
-        // Closing the modal by pressing the escape key
-        window.addEventListener(`keydown`, function (event) {
-            if (event.key === `Escape` || event.key === `Esc`) {
-                modal.classList.remove(`connected`);
-            }
-        });
-        // Closing the modal by clicking the x icon
-        const closeModalButton = document.querySelector(`#closing-icon`);
-        closeModalButton.addEventListener(`click`, function () {
-            modal.classList.remove(`connected`);
-        });
-        // Closing the modal by clicking the x icon
-        const closeModalButton2 = document.querySelector(`#closing-icon2`);
-        closeModalButton2.addEventListener(`click`, function () {
-            modal.classList.remove(`connected`);
-        });
-    }
-}
-
-// Projects in modal display function
-export function displayProjectsInModal(projects) {
-    // Initializing the index
-    let i = 0;
-    for (i in projects) {
-        // Retrieving the DOM element that will host the projects
-        const modalGallery = document.querySelector(`.edition-modal--box__gallery`);
-        // Creating a HTML element dedicated to one project
-        const project = document.createElement(`figure`);
-        // Creating HTML elements
-        const projectImage = document.createElement(`img`);
-        const deleteBlock = document.createElement(`div`);
-        const deleteIcon = document.createElement(`img`);
-        // Attaching HTML elements
-        modalGallery.appendChild(project);
-        project.appendChild(projectImage);
-        project.appendChild(deleteBlock);
-        deleteBlock.appendChild(deleteIcon);
-        // Filling HTML elements
-        projectImage.src = projects[i].imageUrl;
-        projectImage.alt = projects[i].title;
-        deleteBlock.classList.add(`delete-block`);
-        deleteIcon.classList.add(`delete-icon`);
-        deleteIcon.src = `./assets/icons/trash-can-solid.svg`;
-    }
-}
+import { displayProjects } from "./gallery.js";
+import { displayProjectsInModal } from "./modal.js";
 
 // Deleting projects function
-export function deleteProjects(projects) {
-    // Initializing the index
-    let i = 0;
-    // Retrieving the modal and the projects' images
-    const modal = document.querySelector(`.edition-modal`);
-    const project = Array.from(document.querySelectorAll(`.edition-modal--box__gallery img`));
-    // Retrieving the token
-    const authToken = sessionStorage.getItem("token");
-    // Adding eventListener on every projects' images
-    for (i in project) {
-        project[i].addEventListener(`click`, async function () {
-            const imageURI = event.target.src;
-            let imageID;
-            // Retrieving the image's ID
-            for (i in projects) {
-                if (imageURI === projects[i].imageUrl) {
-                    imageID = projects[i].id;
-                }
-            }
-            // Calling the fetch function
-            // const deleteProject = await fetch(`${URI}works/${imageID}`, {
-                // method: `DELETE`,
-                // headers: { Authorization: `Bearer ${authToken}` },
-            // });
+export async function fetchDeleteProject(event) {
+        // Initializing the index
+        let i = 0;
+        // Retrieving the modal and the projects' images
+        const modal = document.querySelector(`.edition-modal`);
+        const project = Array.from(document.querySelectorAll(`.edition-modal--box__gallery img`));
+        // Retrieving the galleries
+        const gallery = document.querySelector(`.gallery`);
+        const modalGallery = document.querySelector(`.edition-modal--box__gallery`);
+        // Retrieving the token
+        const authToken = sessionStorage.getItem("token");
+        const el = event.target;
+        const projectID = el.closest(`figure`).dataset.id;
+        event.target.removeEventListener;
+        // Calling the fetch function
+        const deleteProject = await fetch(`${URI}works/${projectID}`, {
+            method: `DELETE`,
+            headers: { Authorization: `Bearer ${authToken}` },
         });
-    }
+        if (deleteProject.status === 204) {
+            // Validation message
+            document.querySelector(`.error-message`).innerText = ``;
+            document.querySelector(`.validation-message`).innerText = `Le projet a bien été supprimé`;
+            // Retrieving updated works from the API
+            const reponseWorks = await fetch(`${URI}works`);
+            const projects = await reponseWorks.json();
+            // Clear the galleries
+            gallery.innerHTML = ``;
+            modalGallery.innerHTML = ``;
+            // Fill the galleries with updated works
+            displayProjects(projects);
+            displayProjectsInModal(projects);
+        } else {
+            // Error message
+            document.querySelector(`.validation-message`).innerText = ``;
+            document.querySelector(`.error-message`).innerText = `Erreur n°${deleteProject.status} lors de la suppression du projet`;
+            // Retrieving updated works from the API
+            const reponseWorks = await fetch(`${URI}works`);
+            const projects = await reponseWorks.json();
+            // Clear the galleries
+            gallery.innerHTML = ``;
+            modalGallery.innerHTML = ``;
+            // Fill the galleries with updated works
+            displayProjects(projects);
+            displayProjectsInModal(projects);
+
+        };
+    };
+
+// Adding projects function
+export function addingProjects() {
+    const imageInput = document.getElementById(`image-input`);
+    const imageBox = document.getElementById(`image-box`);
+    imageInput.addEventListener(`change`, function (event) {
+        imageBox.innerHTML = ``;
+        const previewImage = document.createElement(`img`);
+        imageBox.appendChild(previewImage);
+        previewImage.alt = `preview-image`;
+        previewImage.classList.add(`preview-image`);
+        previewImage.src = URL.createObjectURL(event.target.files[0]);
+        clearPreviewingImage()
+    })
+    fetchNewProject();
 }
 
-export function modalPageChange() {
-    const addPhotosButton = document.querySelector(`input[value="Ajouter une photo"]`);
-    const previouslyIcon = document.getElementById(`previously-icon`);
-    const deleteProjectsPage = document.getElementById(`delete-projects-page`);
-    const addProjectsPage = document.getElementById(`add-projects-page`);
-    addPhotosButton.addEventListener(`click`, function() {
-        deleteProjectsPage.style.display = `none`;
-        addProjectsPage.style.display = `flex`;
-    });
-    previouslyIcon.addEventListener(`click`, function() {
-        deleteProjectsPage.style.display = `flex`;
-        addProjectsPage.style.display = `none`;
+function clearPreviewingImage() {
+    const addProjectForm = document.getElementById(`adding-project-form`);
+    const imageBox = document.getElementById(`image-box`);
+    const imageBoxOrigin = imageBox.innerHTML;
+    const imageInput = document.getElementById(`image-input`);
+    const clearPreviewIcon = document.createElement(`img`);
+    imageBox.appendChild(clearPreviewIcon);
+    clearPreviewIcon.alt = `clear preview icon`;
+    clearPreviewIcon.id = `clear-preview-icon`;
+    clearPreviewIcon.src = `./assets/icons/xmark.svg`;
+    clearPreviewIcon.addEventListener(`click`, function () {
+        imageBox.innerHTML = imageBoxOrigin;
+        addProjectForm.reset();
+        addingProjects();
+    })
+}
+
+function fetchNewProject() {
+    const addProjectForm = document.getElementById(`adding-project-form`);
+    const imageInput = document.getElementById(`image-input`);
+    const titleInput = document.getElementById(`title-input`);
+    const addProjectButton = document.querySelector(`input[value="Valider"]`);
+    const categoryInput = document.getElementById(`category-input`);
+    const authToken = sessionStorage.getItem("token");
+    const imageBox = document.getElementById(`image-box`);
+    const imageBoxOrigin = imageBox.innerHTML;
+    addProjectForm.addEventListener(`change`, function () {
+        if (imageInput.value !== `` && titleInput.value !== `` && categoryInput.value !== ``) {
+            addProjectButton.classList.remove(`unvalid-form`);
+            addProjectButton.addEventListener(`click`, async function (event) {
+                // Creation of the FormData object
+                const newProject = new FormData();
+                newProject.append(`image`, imageInput.files[0]);
+                newProject.append(`title`, titleInput.value);
+                newProject.append(`category`, categoryInput.value);
+                // Calling the fetch function
+                const sendingProject = await fetch(`${URI}works`, {
+                    method: `POST`,
+                    headers: { Authorization: `Bearer ${authToken}` },
+                    body: newProject
+                });
+                // Processing the API response
+                if (sendingProject.status === 201) {
+                    document.querySelector(`.error-message1`).innerText = ``;
+                    document.querySelector(`.validation-message1`).innerText = `Le projet a bien été ajouté`;
+                    updateGalleries();
+                    addProjectForm.reset();
+                    imageBox.innerHTML = imageBoxOrigin;
+                    imageInput.value = ``;
+                    addingProjects();
+                } else if (sendingProject.status !== 201) {
+                    // Error message
+                    document.querySelector(`.validation-message1`).innerText = ``;
+                    document.querySelector(`.error-message1`).innerText = `Erreur n°${sendingProject.status} lors de l'ajout du projet`;
+                };
+            });
+        } else {
+            addProjectButton.classList.add(`unvalid-form`);
+            addProjectButton.removeEventListener;
+        };
     });
 };

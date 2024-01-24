@@ -101,7 +101,7 @@ a:visited {
 	color: initial;
 }
 
-/* HTML5 display-role reset for older browsers */
+/** HTML5 DISPLAY-ROLE RESET FOR OLDER BROWSERS **/
 article,
 aside,
 details,
@@ -143,7 +143,10 @@ table {
 	border-spacing: 0;
 }
 
-/** end reset css**/
+/** END RESET CSS **/
+
+
+/** GENERAL **/
 body {
 	max-width: 1140px;
 	margin: auto;
@@ -191,7 +194,8 @@ nav {
 
 }
 
-nav a, nav img {
+nav a,
+nav img {
 	padding: 0 10px;
 	font-size: 1.2em;
 }
@@ -204,6 +208,40 @@ a:hover {
 	display: none;
 }
 
+.active-page {
+	font-weight: 600;
+	color: #000;
+}
+
+input[type="button"] {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin: 2em auto;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px;
+	border: none;
+	height: 36px;
+}
+
+
+.error-message, .error-message1 {
+	margin: 10px;
+	color: red;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.validation-message .validation-message1 {
+	margin: 10px;
+	color: green;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+/** INTRO **/
 #introduction {
 	display: flex;
 	align-items: center;
@@ -231,11 +269,7 @@ a:hover {
 	margin-bottom: 0.5em;
 }
 
-#portfolio h2 {
-	text-align: center;
-	position: relative;
-}
-
+/** FILTERS **/
 .filters {
 	display: flex;
 	justify-content: center;
@@ -262,6 +296,11 @@ a:hover {
 	color: #FFF;
 }
 
+/** GALLERY **/
+#portfolio h2 {
+	text-align: center;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -275,6 +314,7 @@ a:hover {
 
 }
 
+/** LOGIN-PAGE **/
 .login-page {
 	background: #FFFEF8;
 	margin: auto;
@@ -286,7 +326,7 @@ a:hover {
 	align-items: center;
 }
 
-#login-form ~ footer {
+#login-form~footer {
 	background: #FFF;
 	height: 60px;
 	align-items: center;
@@ -320,11 +360,6 @@ a:hover {
 	margin-bottom: 28px;
 }
 
-.active-page {
-	font-weight: 600;
-	color: #000;
-}
-
 .email-input {
 	display: flex;
 	flex-direction: column;
@@ -346,13 +381,7 @@ a:hover {
 	margin-bottom: 355px;
 }
 
-#error-message {
-	margin:10px;
-	color: red;
-	font-size: 16px;
-	font-weight: 700;
-}
-
+/** CONTACT **/
 #contact {
 	width: 50%;
 	margin: auto;
@@ -390,25 +419,14 @@ a:hover {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="button"] {
-	font-family: 'Syne';
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin: 2em auto;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px;
-	border: none;
-	height: 36px;
-}
-
+/** FOOTER **/
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
 }
 
+/** EDITION MODE **/
 .edition-banner {
 	background: black;
 	color: white;
@@ -425,13 +443,13 @@ footer nav ul {
 	font-weight: 400;
 }
 
-.connected-header {
+.edition-header {
 	margin: 97px 0 50px 0;
 }
 
 .edition-button {
-	position: absolute;
-	top: 25%;
+	position: relative;
+	top: -22px;
 	left: 61%;
 	font-size: 14px;
 	font-weight: 400;
@@ -464,26 +482,10 @@ footer nav ul {
 	position: relative;
 }
 
-.edition-modal--box input {
+.edition-modal--box input[type="button"] {
 	width: 237px;
 	margin-bottom: 45px;
 	flex-shrink: 0;
-}
-
-#closing-icon, #closing-icon2 {
-	position: absolute;
-	top: 26px;
-	right: 30px;
-}
-
-#previously-icon {
-	position: absolute;
-	top: 26px;
-	left: 30px;
-}
-
-.connected {
-	display: flex;
 }
 
 .edition-modal--box__title {
@@ -533,4 +535,97 @@ footer nav ul {
 .delete-icon {
 	width: 9px;
 	height: 11px;
+}
+
+#closing-icon,
+#closing-icon2 {
+	position: absolute;
+	top: 26px;
+	right: 30px;
+}
+
+#previously-icon {
+	position: absolute;
+	top: 26px;
+	left: 30px;
+}
+
+.connected {
+	display: flex;
+}
+
+#adding-project-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+#image-box {
+	width: 420px;
+	height: 169px;
+	border-radius: 3px;
+	background: #E8F1F6;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 36px 0 30px 0;
+	position: relative;
+}
+
+#image-box p {
+	font-size: 10px;
+	color: #444;
+}
+
+#image-label {
+	cursor: pointer;
+	color: #306685;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 173px;
+	height: 36px;
+	border-radius: 50px;
+	background: #CBD6DC;
+	margin: 6px 0 7px 0;
+}
+
+#image-input {
+	display: none;
+}
+
+#title-box, #category-box {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	gap: 10px;
+	color: #3d3d3d;
+}
+
+#title-input, #category-input {
+	width: 420px;
+	height: 51px;
+	background: #FFF;
+	border: none;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+}
+
+#category-box {
+	margin: 21px 0 47px 0;
+}
+
+.unvalid-form[value="Valider"] {
+	background-color: #a7a7a7;
+}
+
+.preview-image {
+	height: 100%;
+}
+
+#clear-preview-icon {
+	position: absolute;
+	top: 5px;
+	right: 5px;
 }

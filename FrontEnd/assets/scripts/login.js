@@ -6,7 +6,7 @@ export function login() {
     const loginForm = document.querySelector(`#login-form form`);
     const loginFormButton = document.querySelector(`#login-form form [type=button]`);
     // Adding eventListeners
-    loginForm.onkeydown = function(event) {
+    loginForm.onkeydown = function (event) {
         if (event.key === `Enter`) {
             sendingIDs();
         }
@@ -30,19 +30,16 @@ export function login() {
         // Processing the API response
         // If user correctly entered their IDs
         if (tokenReturn.status === 200) {
-            document.getElementById(`error-message`).innerText = ``;
+            document.querySelector(`.error-message`).innerText = ``;
             const token = await tokenReturn.json();
             // Storing the user ID and the token in the sessionStorage
             window.sessionStorage.setItem(`userId`, token.userId);
             window.sessionStorage.setItem(`token`, token.token);
             // Redirection to the home page
             document.location.href = `./index.html`;
-            // If user entered wrong password
-        } else if (tokenReturn.status === 401) {
-            document.getElementById(`error-message`).innerText = `Mot de passe incorrect.`;
-            // If user doesn't exist in the DB
-        } else if (tokenReturn.status === 404) {
-            document.getElementById(`error-message`).innerText = `Identifiant inconnu.`;
+            // If user entered wrong id or wrong password
+        } else if (tokenReturn.status !== 200) {
+            document.querySelector(`.error-message`).innerText = `Identifiant ou mot de passe incorrect.`;
         };
     };
 };
@@ -50,16 +47,16 @@ export function login() {
 // Logout function
 export function logout() {
     const logoutButton = document.querySelector(`.logout-button`)
-    logoutButton.addEventListener(`click`, function() {
+    logoutButton.addEventListener(`click`, function () {
         const hiddenElements = Array.from(document.querySelectorAll(`.connected`));
         hiddenElements.forEach(function (el) {
             el.setAttribute("aria-hidden", true);
         });
         sessionStorage.clear();
         const editionBanner = document.querySelector(`.edition-banner`).classList.remove(`connected`);
-        const header = document.querySelector(`.index header`).classList.remove(`connected-header`);
+        const header = document.querySelector(`.index header`).classList.remove(`edition-header`);
         const loginButton = document.querySelector(`a[href="./login.html"]`).style.display = null;
         logoutButton.classList.remove(`connected`);
         const editionButton = document.querySelector(`.edition-button`).classList.remove(`connected`);
     });
- };
+};

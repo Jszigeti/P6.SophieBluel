@@ -18,8 +18,8 @@
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
-			<a href="#">projets</a>
-			<a href="#">contact</a>
+			<a href="#portfolio">projets</a>
+			<a href="#contact">contact</a>
 			<a href="./login.html">login</a>
 			<a href="#" class="logout-button active-page" aria-hidden="true">logout</a>
 			<img src="./assets/icons/instagram.png" alt="Instagram">
@@ -35,21 +35,35 @@
 			<h3 class="edition-modal--box__title">Galerie photo</h3>
 			<div class="edition-modal--box__gallery"></div>
 			<div class="edition--modal--box__line"></div>
+			<p class="validation-message"></p>
+			<p class="error-message"></p>
 			<input type="button" value="Ajouter une photo">
 		</div>
 		<div class="edition-modal--box" id="add-projects-page" style="display: none;">
 			<img src="./assets/icons/arrow-left.svg" alt="previously icon" id="previously-icon">
 			<img src="./assets/icons/xmark.svg" alt="close icon" id="closing-icon2">
 			<h3 class="edition-modal--box__title">Ajout photo</h3>
-			<form id="myForm">
-				<label for="image">Image:</label>
-				<input type="file" id="image" accept="image/*" required><br>
-				<label for="titre">Titre:</label>
-				<input type="text" id="titre" required><br>
-				<label for="categorie">Catégorie:</label>
-				<input type="text" id="categorie" required><br>
+			<form method="post" id="adding-project-form">
+				<div id="image-box">
+					<img src="./assets/icons/picture-svgrepo-com1.svg" alt="image icon">
+					<label for="image-input" id="image-label">+ Ajouter photo</label>
+					<input type="file" id="image-input" accept="image/jpg, image/jpeg, image/png" required>
+					<p>jpg, png : 4mo max</p>
+				</div>
+				<div id="title-box">
+					<label for="title-input">Titre :</label>
+					<input type="text" id="title-input" required>
+				</div>
+				<div id="category-box">
+					<label for="category-input">Catégorie :</label>
+					<select id="category-input" required>
+						<option value="" disabled selected> </option>
+					</select>
+				</div>
 				<div class="edition--modal--box__line"></div>
-				<input type="button" value="Valider">
+				<p class="validation-message1"></p>
+				<p class="error-message1"></p>
+				<input type="button" value="Valider" class="unvalid-form">
 			</form>
 		</div>
 	</aside>
@@ -72,11 +86,12 @@
 		<section id="portfolio">
 			<h2>
 				Mes Projets
-				<aside class="edition-button" aria-hidden="true">
+
+			</h2>
+							<aside class="edition-button" aria-hidden="true">
 					<img src="./assets/icons/Group.svg" alt="edition icon">
 					<p>modifier</p>
 				</aside>
-			</h2>
 			<div class="filters">
 			</div>
 			<div class="gallery">

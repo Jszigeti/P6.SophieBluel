@@ -2,7 +2,8 @@
 import { displayProjects } from './gallery.js';
 import { addFiltersButtons, filters } from './filters.js';
 import { login, logout } from './login.js';
-import { displayEditMode, displayModal, displayProjectsInModal, deleteProjects, modalPageChange } from './edit.js';
+import { displayEditMode, displayModal, displayProjectsInModal, modalPageChange, addingFormCategories } from './modal.js';
+import { addingProjects } from './edit.js';
 
 // Storing API's URI in a const
 export const URI = `http://localhost:5678/api/`;
@@ -24,8 +25,9 @@ if (document.querySelector(`body`).classList.value === `index`) {
     displayEditMode();
     displayModal();
     displayProjectsInModal(projects);
-    deleteProjects(projects);
     modalPageChange();
+    addingFormCategories(categories);
+    addingProjects(projects);
 };
 
 // Calling functions relating only to the login page
