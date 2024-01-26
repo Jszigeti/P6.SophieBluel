@@ -1,4 +1,4 @@
-import { fetchDeleteProject } from "./edit.js";
+import { deleteProjects } from "./edit.js";
 
 // Edit mode display function
 export function displayEditMode() {
@@ -70,14 +70,16 @@ export function displayProjectsInModal(projects) {
         // Filling HTML elements
         projectImage.src = projects[i].imageUrl;
         projectImage.alt = projects[i].title;
+        projectImage.dataset.id = projects[i].id;
         deleteBlock.classList.add(`delete-block`);
         deleteIcon.classList.add(`delete-icon`);
         deleteIcon.src = `./assets/icons/trash-can-solid.svg`;
-        project.dataset.id = projects[i].id;
-        project.addEventListener(`click`, fetchDeleteProject);
+        // Adding event listeners on every project
+        project.addEventListener(`click`, deleteProjects);
     }
 }
 
+// Modal page change function
 export function modalPageChange() {
     const addPhotosButton = document.querySelector(`input[value="Ajouter une photo"]`);
     const previouslyIcon = document.getElementById(`previously-icon`);
@@ -93,6 +95,7 @@ export function modalPageChange() {
     });
 };
 
+// Retrieving the categories from the API to display in modal function
 export function addingFormCategories(categories) {
     let i = 0;
     for (i in categories) {

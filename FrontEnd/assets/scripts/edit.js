@@ -3,59 +3,43 @@ import { displayProjects } from "./gallery.js";
 import { displayProjectsInModal } from "./modal.js";
 
 // Deleting projects function
-export async function fetchDeleteProject(event) {
-        // Initializing the index
-        let i = 0;
-        // Retrieving the modal and the projects' images
-        const modal = document.querySelector(`.edition-modal`);
-        const project = Array.from(document.querySelectorAll(`.edition-modal--box__gallery img`));
-        // Retrieving the galleries
-        const gallery = document.querySelector(`.gallery`);
-        const modalGallery = document.querySelector(`.edition-modal--box__gallery`);
-        // Retrieving the token
-        const authToken = sessionStorage.getItem("token");
-        const el = event.target;
-        const projectID = el.closest(`figure`).dataset.id;
-        event.target.removeEventListener;
-        // Calling the fetch function
-        const deleteProject = await fetch(`${URI}works/${projectID}`, {
-            method: `DELETE`,
-            headers: { Authorization: `Bearer ${authToken}` },
-        });
-        if (deleteProject.status === 204) {
-            // Validation message
-            document.querySelector(`.error-message`).innerText = ``;
-            document.querySelector(`.validation-message`).innerText = `Le projet a bien été supprimé`;
-            // Retrieving updated works from the API
-            const reponseWorks = await fetch(`${URI}works`);
-            const projects = await reponseWorks.json();
-            // Clear the galleries
-            gallery.innerHTML = ``;
-            modalGallery.innerHTML = ``;
-            // Fill the galleries with updated works
-            displayProjects(projects);
-            displayProjectsInModal(projects);
-        } else {
-            // Error message
-            document.querySelector(`.validation-message`).innerText = ``;
-            document.querySelector(`.error-message`).innerText = `Erreur n°${deleteProject.status} lors de la suppression du projet`;
-            // Retrieving updated works from the API
-            const reponseWorks = await fetch(`${URI}works`);
-            const projects = await reponseWorks.json();
-            // Clear the galleries
-            gallery.innerHTML = ``;
-            modalGallery.innerHTML = ``;
-            // Fill the galleries with updated works
-            displayProjects(projects);
-            displayProjectsInModal(projects);
-
-        };
+export async function deleteProjects(event) {
+    // Retrieving the token
+    const authToken = sessionStorage.getItem("token");
+    // Retrieving the project ID
+    const projectID = event.target.dataset.id;
+    // Remove the event listener
+    event.target.removeEventListener;
+    // Calling the fetch function
+    const deleteProject = await fetch(`${URI}works/${projectID}`, {
+        method: `DELETE`,
+        headers: { Authorization: `Bearer ${authToken}` },
+    });
+    if (deleteProject.status === 204) {
+        // Validation message
+        document.querySelector(`.error-message`).innerText = ``;
+        document.querySelector(`.validation-message`).innerText = `Le projet a bien été supprimé`;
+        updateGalleries();
+    } else {
+        // Error message
+        document.querySelector(`.validation-message`).innerText = ``;
+        document.querySelector(`.error-message`).innerText = `Erreur n°${deleteProject.status} lors de la suppression du projet`;
     };
+};
 
 // Adding projects function
 export function addingProjects() {
+    // Retrieving the form and inputs
+    const addProjectForm = document.getElementById(`adding-project-form`);
     const imageInput = document.getElementById(`image-input`);
     const imageBox = document.getElementById(`image-box`);
+    const titleInput = document.getElementById(`title-input`);
+    const categoryInput = document.getElementById(`category-input`);
+    const addProjectButton = document.querySelector(`input[value="Valider"]`);
+    const imageBoxOrigin = imageBox.innerHTML;
+    // Retrieving the token
+    const authToken = sessionStorage.getItem("token");
+    // Adding the image preview
     imageInput.addEventListener(`change`, function (event) {
         imageBox.innerHTML = ``;
         const previewImage = document.createElement(`img`);
@@ -63,37 +47,8 @@ export function addingProjects() {
         previewImage.alt = `preview-image`;
         previewImage.classList.add(`preview-image`);
         previewImage.src = URL.createObjectURL(event.target.files[0]);
-        clearPreviewingImage()
-    })
-    fetchNewProject();
-}
-
-function clearPreviewingImage() {
-    const addProjectForm = document.getElementById(`adding-project-form`);
-    const imageBox = document.getElementById(`image-box`);
-    const imageBoxOrigin = imageBox.innerHTML;
-    const imageInput = document.getElementById(`image-input`);
-    const clearPreviewIcon = document.createElement(`img`);
-    imageBox.appendChild(clearPreviewIcon);
-    clearPreviewIcon.alt = `clear preview icon`;
-    clearPreviewIcon.id = `clear-preview-icon`;
-    clearPreviewIcon.src = `./assets/icons/xmark.svg`;
-    clearPreviewIcon.addEventListener(`click`, function () {
-        imageBox.innerHTML = imageBoxOrigin;
-        addProjectForm.reset();
-        addingProjects();
-    })
-}
-
-function fetchNewProject() {
-    const addProjectForm = document.getElementById(`adding-project-form`);
-    const imageInput = document.getElementById(`image-input`);
-    const titleInput = document.getElementById(`title-input`);
-    const addProjectButton = document.querySelector(`input[value="Valider"]`);
-    const categoryInput = document.getElementById(`category-input`);
-    const authToken = sessionStorage.getItem("token");
-    const imageBox = document.getElementById(`image-box`);
-    const imageBoxOrigin = imageBox.innerHTML;
+    });
+    // Adding the eventListener if the form is completed
     addProjectForm.addEventListener(`change`, function () {
         if (imageInput.value !== `` && titleInput.value !== `` && categoryInput.value !== ``) {
             addProjectButton.classList.remove(`unvalid-form`);
@@ -114,10 +69,6 @@ function fetchNewProject() {
                     document.querySelector(`.error-message1`).innerText = ``;
                     document.querySelector(`.validation-message1`).innerText = `Le projet a bien été ajouté`;
                     updateGalleries();
-                    addProjectForm.reset();
-                    imageBox.innerHTML = imageBoxOrigin;
-                    imageInput.value = ``;
-                    addingProjects();
                 } else if (sendingProject.status !== 201) {
                     // Error message
                     document.querySelector(`.validation-message1`).innerText = ``;
@@ -129,4 +80,20 @@ function fetchNewProject() {
             addProjectButton.removeEventListener;
         };
     });
+};
+
+// Updating the galleries after delete or add project
+async function updateGalleries() {
+    // Retrieving the galleries
+    const gallery = document.querySelector(`.gallery`);
+    const modalGallery = document.querySelector(`.edition-modal--box__gallery`);
+    // Retrieving updated works from the API
+    const reponseWorks = await fetch(`${URI}works`);
+    const projects = await reponseWorks.json();
+    // Clear the galleries
+    gallery.innerHTML = ``;
+    modalGallery.innerHTML = ``;
+    // Fill the galleries with updated works
+    displayProjects(projects);
+    displayProjectsInModal(projects);
 };

@@ -18,16 +18,16 @@ const categories = await reponseCategories.json();
 
 // Calling functions relating only to the homepage
 if (document.querySelector(`body`).classList.value === `index`) {
-    addFiltersButtons(categories);
     displayProjects(projects);
-    filters();
+    addFiltersButtons(categories);
+    filters(projects);
     logout();
     displayEditMode();
     displayModal();
-    displayProjectsInModal(projects);
     modalPageChange();
+    displayProjectsInModal(projects);
     addingFormCategories(categories);
-    addingProjects(projects);
+    addingProjects();
 };
 
 // Calling functions relating only to the login page
