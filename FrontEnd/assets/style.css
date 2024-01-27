@@ -468,6 +468,7 @@ footer nav ul {
 	justify-content: center;
 	z-index: 1;
 	display: none;
+	margin: 0;
 }
 
 .edition-modal--box {

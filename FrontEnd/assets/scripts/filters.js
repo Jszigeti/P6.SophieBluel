@@ -20,7 +20,7 @@ export function addFiltersButtons(categories) {
 };
 
 // Filter function
-export function filters(projects) {
+export function filters() {
     // Retrieving filter buttons
     const filtersButtons = document.querySelectorAll(`.filters button`);
     const buttonAll = filtersButtons[0];

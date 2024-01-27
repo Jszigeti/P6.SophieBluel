@@ -5,7 +5,7 @@ import { login, logout } from './login.js';
 import { displayEditMode, displayModal, displayProjectsInModal, modalPageChange, addingFormCategories } from './modal.js';
 import { addingProjects } from './edit.js';
 
-// Storing API's URI in a const
+// Storing API's URI
 export const URI = `http://localhost:5678/api/`;
 
 // Retrieving works from the API
@@ -20,7 +20,7 @@ const categories = await reponseCategories.json();
 if (document.querySelector(`body`).classList.value === `index`) {
     displayProjects(projects);
     addFiltersButtons(categories);
-    filters(projects);
+    filters();
     logout();
     displayEditMode();
     displayModal();

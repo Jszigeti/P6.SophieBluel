@@ -36,7 +36,6 @@ export function addingProjects() {
     const titleInput = document.getElementById(`title-input`);
     const categoryInput = document.getElementById(`category-input`);
     const addProjectButton = document.querySelector(`input[value="Valider"]`);
-    const imageBoxOrigin = imageBox.innerHTML;
     // Retrieving the token
     const authToken = sessionStorage.getItem("token");
     // Adding the image preview

@@ -2,20 +2,22 @@ import { deleteProjects } from "./edit.js";
 
 // Edit mode display function
 export function displayEditMode() {
+    // Display hidden elements if user has token in sessionStorage
     if (window.sessionStorage.token) {
         const editionBanner = document.querySelector(`.edition-banner`).classList.add(`connected`);
         const header = document.querySelector(`.index header`).classList.add(`edition-header`);
         const loginButton = document.querySelector(`a[href="./login.html"]`).style.display = "none";
         const logoutButton = document.querySelector(`.logout-button`).classList.add(`connected`);
         const editionButton = document.querySelector(`.edition-button`).classList.add(`connected`);
+        // Remove the aria-hidden attribute        
         const hiddenElements = Array.from(document.querySelectorAll(`.connected`));
         hiddenElements.forEach(function (el) {
             el.removeAttribute("aria-hidden");
         });
-    }
-}
+    };
+};
 
-// Modal display function
+// Modal display and closing function
 export function displayModal() {
     if (window.sessionStorage.token) {
         const modal = document.querySelector(`.edition-modal`);
@@ -28,13 +30,13 @@ export function displayModal() {
         window.addEventListener(`click`, function (event) {
             if (event.target == modal && modal.classList.contains(`connected`)) {
                 modal.classList.remove(`connected`);
-            }
+            };
         });
         // Closing the modal by pressing the escape key
         window.addEventListener(`keydown`, function (event) {
             if (event.key === `Escape` || event.key === `Esc`) {
                 modal.classList.remove(`connected`);
-            }
+            };
         });
         // Closing the modal by clicking the x icon
         const closeModalButton = document.querySelector(`#closing-icon`);
@@ -46,8 +48,8 @@ export function displayModal() {
         closeModalButton2.addEventListener(`click`, function () {
             modal.classList.remove(`connected`);
         });
-    }
-}
+    };
+};
 
 // Projects in modal display function
 export function displayProjectsInModal(projects) {
@@ -76,20 +78,22 @@ export function displayProjectsInModal(projects) {
         deleteIcon.src = `./assets/icons/trash-can-solid.svg`;
         // Adding event listeners on every project
         project.addEventListener(`click`, deleteProjects);
-    }
-}
+    };
+};
 
 // Modal page change function
 export function modalPageChange() {
+    // Retrieving modal's buttons and elements
     const addPhotosButton = document.querySelector(`input[value="Ajouter une photo"]`);
     const previouslyIcon = document.getElementById(`previously-icon`);
     const deleteProjectsPage = document.getElementById(`delete-projects-page`);
     const addProjectsPage = document.getElementById(`add-projects-page`);
-    addPhotosButton.addEventListener(`click`, function() {
+    // Adding event listeners on buttons
+    addPhotosButton.addEventListener(`click`, function () {
         deleteProjectsPage.style.display = `none`;
         addProjectsPage.style.display = `flex`;
     });
-    previouslyIcon.addEventListener(`click`, function() {
+    previouslyIcon.addEventListener(`click`, function () {
         deleteProjectsPage.style.display = `flex`;
         addProjectsPage.style.display = `none`;
     });
@@ -99,10 +103,10 @@ export function modalPageChange() {
 export function addingFormCategories(categories) {
     let i = 0;
     for (i in categories) {
-        const categoriesInput = document.getElementById(`category-input`)
+        const categoriesInput = document.getElementById(`category-input`);
         const category = document.createElement(`option`);
         category.innerText = categories[i].name;
         category.value = categories[i].id;
         categoriesInput.appendChild(category);
-    }
+    };
 };
